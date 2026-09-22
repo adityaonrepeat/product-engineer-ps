@@ -29,10 +29,15 @@ def serve(
 
 
 @app.command()
-def benchmark() -> None:
+def benchmark(
+    fixture_dir: Annotated[
+        Path | None,
+        typer.Option(help="Directory containing memories.json and queries.json."),
+    ] = None,
+) -> None:
     """Run the version-controlled deterministic verification fixture."""
     from memory_ledger.benchmark import print_benchmark
 
-    result = print_benchmark()
+    result = print_benchmark(fixture_dir) if fixture_dir else print_benchmark()
     if not result.passed:
         raise typer.Exit(code=1)

@@ -1,0 +1,240 @@
+{
+  "expected_memory_count": 32,
+  "events": [
+    {
+      "alias": "city_pune_1",
+      "operation": "store",
+      "recorded_at": "2026-01-01T09:05:00Z",
+      "source": {"message_id": "msg-001", "conversation_id": "fixture", "excerpt": "I live in Pune.", "occurred_at": "2026-01-01T09:00:00Z"},
+      "fact": {"key": "location.current_city", "value": "Pune", "text": "User currently lives in Pune", "tags": ["city", "home", "live", "location"]}
+    },
+    {
+      "alias": "city_mumbai",
+      "operation": "correct",
+      "target": "city_pune_1",
+      "recorded_at": "2026-02-01T09:05:00Z",
+      "source": {"message_id": "msg-002", "conversation_id": "fixture", "excerpt": "I moved to Mumbai.", "occurred_at": "2026-02-01T09:00:00Z"},
+      "fact": {"key": "location.current_city", "value": "Mumbai", "text": "User currently lives in Mumbai", "tags": ["city", "home", "live", "location"]}
+    },
+    {
+      "alias": "city_pune_2",
+      "operation": "correct",
+      "target": "city_mumbai",
+      "recorded_at": "2026-03-01T09:05:00Z",
+      "source": {"message_id": "msg-003", "conversation_id": "fixture", "excerpt": "I moved back to Pune.", "occurred_at": "2026-03-01T09:00:00Z"},
+      "fact": {"key": "location.current_city", "value": "Pune", "text": "User currently lives in Pune again", "tags": ["city", "home", "live", "location"]}
+    },
+    {
+      "alias": "employer_acme",
+      "operation": "store",
+      "recorded_at": "2026-01-02T09:05:00Z",
+      "source": {"message_id": "msg-004", "conversation_id": "fixture", "excerpt": "I work at Acme.", "occurred_at": "2026-01-02T09:00:00Z"},
+      "fact": {"key": "employment.current_employer", "value": "Acme", "text": "User works at Acme", "tags": ["employer", "job", "work"]}
+    },
+    {
+      "alias": "employer_globex",
+      "operation": "correct",
+      "target": "employer_acme",
+      "recorded_at": "2026-04-01T09:05:00Z",
+      "source": {"message_id": "msg-005", "conversation_id": "fixture", "excerpt": "I joined Globex.", "occurred_at": "2026-04-01T09:00:00Z"},
+      "fact": {"key": "employment.current_employer", "value": "Globex", "text": "User works at Globex", "tags": ["employer", "job", "work"]}
+    },
+    {
+      "alias": "diet_vegetarian",
+      "operation": "store",
+      "recorded_at": "2026-01-03T09:05:00Z",
+      "source": {"message_id": "msg-006", "conversation_id": "fixture", "excerpt": "I am vegetarian.", "occurred_at": "2026-01-03T09:00:00Z"},
+      "fact": {"key": "diet.current_type", "value": "Vegetarian", "text": "User follows a vegetarian diet", "tags": ["diet", "food", "vegetarian"]}
+    },
+    {
+      "alias": "diet_vegan",
+      "operation": "correct",
+      "target": "diet_vegetarian",
+      "recorded_at": "2026-05-01T09:05:00Z",
+      "source": {"message_id": "msg-007", "conversation_id": "fixture", "excerpt": "I am vegan now.", "occurred_at": "2026-05-01T09:00:00Z"},
+      "fact": {"key": "diet.current_type", "value": "Vegan", "text": "User follows a vegan diet", "tags": ["diet", "food", "vegan"]}
+    },
+    {
+      "alias": "pet_milo",
+      "operation": "store",
+      "recorded_at": "2026-01-04T09:05:00Z",
+      "source": {"message_id": "msg-008", "conversation_id": "fixture", "excerpt": "My cat is named Milo.", "occurred_at": "2026-01-04T09:00:00Z"},
+      "fact": {"key": "pet.current_name", "value": "Milo", "text": "User's cat is named Milo", "tags": ["cat", "name", "pet"]}
+    },
+    {
+      "alias": "pet_luna",
+      "operation": "correct",
+      "target": "pet_milo",
+      "recorded_at": "2026-06-01T09:05:00Z",
+      "source": {"message_id": "msg-009", "conversation_id": "fixture", "excerpt": "My current cat is Luna.", "occurred_at": "2026-06-01T09:00:00Z"},
+      "fact": {"key": "pet.current_name", "value": "Luna", "text": "User's current cat is named Luna", "tags": ["cat", "name", "pet"]}
+    },
+    {
+      "alias": "language_python",
+      "operation": "store",
+      "recorded_at": "2026-01-05T09:05:00Z",
+      "source": {"message_id": "msg-010", "conversation_id": "fixture", "excerpt": "Python is my preferred language.", "occurred_at": "2026-01-05T09:00:00Z"},
+      "fact": {"key": "preference.programming_language", "value": "Python", "text": "User prefers Python for programming", "tags": ["code", "language", "programming"]}
+    },
+    {
+      "alias": "language_rust",
+      "operation": "correct",
+      "target": "language_python",
+      "recorded_at": "2026-07-01T09:05:00Z",
+      "source": {"message_id": "msg-011", "conversation_id": "fixture", "excerpt": "I prefer Rust now.", "occurred_at": "2026-07-01T09:00:00Z"},
+      "fact": {"key": "preference.programming_language", "value": "Rust", "text": "User prefers Rust for programming", "tags": ["code", "language", "programming"]}
+    },
+    {
+      "alias": "city_bangalore_pending",
+      "operation": "conflict",
+      "target": "city_pune_2",
+      "recorded_at": "2026-07-02T09:05:00Z",
+      "source": {"message_id": "msg-012", "conversation_id": "fixture", "excerpt": "I may spend next year in Bangalore.", "occurred_at": "2026-07-02T09:00:00Z"},
+      "fact": {"key": "location.current_city", "value": "Bangalore", "text": "User may live in Bangalore next year", "tags": ["city", "future", "location", "possible"]}
+    },
+    {
+      "alias": "work_remote",
+      "operation": "store",
+      "recorded_at": "2026-01-06T09:05:00Z",
+      "source": {"message_id": "msg-013", "conversation_id": "fixture", "excerpt": "I work remotely.", "occurred_at": "2026-01-06T09:00:00Z"},
+      "fact": {"key": "employment.work_arrangement", "value": "Remote", "text": "User works remotely", "tags": ["remote", "work", "workplace"]}
+    },
+    {
+      "alias": "work_hybrid_pending",
+      "operation": "conflict",
+      "target": "work_remote",
+      "recorded_at": "2026-07-03T09:05:00Z",
+      "source": {"message_id": "msg-014", "conversation_id": "fixture", "excerpt": "The team might become hybrid.", "occurred_at": "2026-07-03T09:00:00Z"},
+      "fact": {"key": "employment.work_arrangement", "value": "Hybrid", "text": "User might work in a hybrid arrangement", "tags": ["hybrid", "possible", "work", "workplace"]}
+    },
+    {
+      "alias": "timezone_kolkata",
+      "operation": "store",
+      "recorded_at": "2026-01-07T09:05:00Z",
+      "source": {"message_id": "msg-015", "conversation_id": "fixture", "excerpt": "My timezone is Asia/Kolkata.", "occurred_at": "2026-01-07T09:00:00Z"},
+      "fact": {"key": "profile.timezone", "value": "Asia/Kolkata", "text": "User's timezone is Asia Kolkata", "tags": ["clock", "time", "timezone"]}
+    },
+    {
+      "alias": "cuisine_thai",
+      "operation": "store",
+      "recorded_at": "2026-01-08T09:05:00Z",
+      "source": {"message_id": "msg-016", "conversation_id": "fixture", "excerpt": "Thai is my favorite cuisine.", "occurred_at": "2026-01-08T09:00:00Z"},
+      "fact": {"key": "preference.favorite_cuisine", "value": "Thai", "text": "User's favorite cuisine is Thai", "tags": ["cuisine", "favorite", "food"]}
+    },
+    {
+      "alias": "hobby_hiking",
+      "operation": "store",
+      "recorded_at": "2026-01-09T09:05:00Z",
+      "source": {"message_id": "msg-017", "conversation_id": "fixture", "excerpt": "I enjoy hiking on trails.", "occurred_at": "2026-01-09T09:00:00Z"},
+      "fact": {"key": "hobby.outdoor", "value": "Hiking", "text": "User enjoys hiking on trails", "tags": ["hiking", "hobby", "outdoor", "trail"]}
+    },
+    {
+      "alias": "hobby_photography",
+      "operation": "store",
+      "recorded_at": "2026-01-10T09:05:00Z",
+      "source": {"message_id": "msg-018", "conversation_id": "fixture", "excerpt": "I practice street photography.", "occurred_at": "2026-01-10T09:00:00Z"},
+      "fact": {"key": "hobby.creative", "value": "Photography", "text": "User practices street photography", "tags": ["camera", "creative", "hobby", "photography"]}
+    },
+    {
+      "alias": "allergy_peanuts",
+      "operation": "store",
+      "recorded_at": "2026-01-11T09:05:00Z",
+      "source": {"message_id": "msg-019", "conversation_id": "fixture", "excerpt": "I am allergic to peanuts.", "occurred_at": "2026-01-11T09:00:00Z"},
+      "fact": {"key": "health.food_allergy", "value": "Peanuts", "text": "User has a peanut food allergy", "tags": ["allergy", "food", "health", "peanut"]}
+    },
+    {
+      "alias": "birthday_november",
+      "operation": "store",
+      "recorded_at": "2026-01-12T09:05:00Z",
+      "source": {"message_id": "msg-020", "conversation_id": "fixture", "excerpt": "My birthday is in November.", "occurred_at": "2026-01-12T09:00:00Z"},
+      "fact": {"key": "profile.birth_month", "value": "November", "text": "User's birthday month is November", "tags": ["birthday", "birth", "month"]}
+    },
+    {
+      "alias": "siblings_two",
+      "operation": "store",
+      "recorded_at": "2026-01-13T09:05:00Z",
+      "source": {"message_id": "msg-021", "conversation_id": "fixture", "excerpt": "I have two siblings.", "occurred_at": "2026-01-13T09:00:00Z"},
+      "fact": {"key": "family.sibling_count", "value": "2", "text": "User has two siblings", "tags": ["count", "family", "siblings"]}
+    },
+    {
+      "alias": "degree_cs",
+      "operation": "store",
+      "recorded_at": "2026-01-14T09:05:00Z",
+      "source": {"message_id": "msg-022", "conversation_id": "fixture", "excerpt": "I studied computer science.", "occurred_at": "2026-01-14T09:00:00Z"},
+      "fact": {"key": "education.degree", "value": "Computer Science", "text": "User has a computer science degree", "tags": ["degree", "education", "study"]}
+    },
+    {
+      "alias": "meeting_mornings",
+      "operation": "store",
+      "recorded_at": "2026-01-15T09:05:00Z",
+      "source": {"message_id": "msg-023", "conversation_id": "fixture", "excerpt": "I prefer morning meetings.", "occurred_at": "2026-01-15T09:00:00Z"},
+      "fact": {"key": "preference.meeting_time", "value": "Morning", "text": "User prefers morning meetings", "tags": ["meeting", "morning", "schedule"]}
+    },
+    {
+      "alias": "coffee_black_deleted",
+      "operation": "store",
+      "recorded_at": "2026-01-16T09:05:00Z",
+      "source": {"message_id": "msg-024", "conversation_id": "fixture", "excerpt": "I take my coffee black.", "occurred_at": "2026-01-16T09:00:00Z"},
+      "fact": {"key": "preference.coffee", "value": "Black", "text": "User drinks black coffee", "tags": ["coffee", "drink", "preference"]}
+    },
+    {
+      "alias": "music_jazz",
+      "operation": "store",
+      "recorded_at": "2026-01-17T09:05:00Z",
+      "source": {"message_id": "msg-025", "conversation_id": "fixture", "excerpt": "I listen to jazz.", "occurred_at": "2026-01-17T09:00:00Z"},
+      "fact": {"key": "preference.music_genre", "value": "Jazz", "text": "User likes jazz music", "tags": ["jazz", "music", "genre"]}
+    },
+    {
+      "alias": "travel_japan",
+      "operation": "store",
+      "recorded_at": "2026-01-18T09:05:00Z",
+      "source": {"message_id": "msg-026", "conversation_id": "fixture", "excerpt": "I want to visit Japan.", "occurred_at": "2026-01-18T09:00:00Z"},
+      "fact": {"key": "travel.destination", "value": "Japan", "text": "User wants to visit Japan", "tags": ["destination", "japan", "travel"]}
+    },
+    {
+      "alias": "exercise_yoga",
+      "operation": "store",
+      "recorded_at": "2026-01-19T09:05:00Z",
+      "source": {"message_id": "msg-027", "conversation_id": "fixture", "excerpt": "I practice yoga.", "occurred_at": "2026-01-19T09:00:00Z"},
+      "fact": {"key": "health.exercise", "value": "Yoga", "text": "User practices yoga for exercise", "tags": ["exercise", "fitness", "health", "yoga"]}
+    },
+    {
+      "alias": "device_linux",
+      "operation": "store",
+      "recorded_at": "2026-01-20T09:05:00Z",
+      "source": {"message_id": "msg-028", "conversation_id": "fixture", "excerpt": "My main computer runs Linux.", "occurred_at": "2026-01-20T09:00:00Z"},
+      "fact": {"key": "technology.operating_system", "value": "Linux", "text": "User's main computer runs Linux", "tags": ["computer", "device", "linux", "operating", "system"]}
+    },
+    {
+      "alias": "pronouns_he_him",
+      "operation": "store",
+      "recorded_at": "2026-01-21T09:05:00Z",
+      "source": {"message_id": "msg-029", "conversation_id": "fixture", "excerpt": "My pronouns are he/him.", "occurred_at": "2026-01-21T09:00:00Z"},
+      "fact": {"key": "profile.pronouns", "value": "he/him", "text": "User uses he him pronouns", "tags": ["identity", "pronouns"]}
+    },
+    {
+      "alias": "book_scifi",
+      "operation": "store",
+      "recorded_at": "2026-01-22T09:05:00Z",
+      "source": {"message_id": "msg-030", "conversation_id": "fixture", "excerpt": "I enjoy science fiction books.", "occurred_at": "2026-01-22T09:00:00Z"},
+      "fact": {"key": "preference.book_genre", "value": "Science Fiction", "text": "User enjoys science fiction books", "tags": ["book", "fiction", "reading", "science"]}
+    },
+    {
+      "alias": "commute_bicycle",
+      "operation": "store",
+      "recorded_at": "2026-01-23T09:05:00Z",
+      "source": {"message_id": "msg-031", "conversation_id": "fixture", "excerpt": "I commute by bicycle.", "occurred_at": "2026-01-23T09:00:00Z"},
+      "fact": {"key": "transport.commute", "value": "Bicycle", "text": "User commutes by bicycle", "tags": ["bicycle", "commute", "transport"]}
+    },
+    {
+      "alias": "project_memory_ledger",
+      "operation": "store",
+      "recorded_at": "2026-01-24T09:05:00Z",
+      "source": {"message_id": "msg-032", "conversation_id": "fixture", "excerpt": "I am building Memory Ledger.", "occurred_at": "2026-01-24T09:00:00Z"},
+      "fact": {"key": "project.current", "value": "Memory Ledger", "text": "User is building the Memory Ledger project", "tags": ["memory", "project", "software"]}
+    }
+  ],
+  "deletions": [
+    {"target": "coffee_black_deleted", "recorded_at": "2026-08-01T09:00:00Z"}
+  ]
+}

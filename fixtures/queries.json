@@ -1,0 +1,24 @@
+{
+  "queries": [
+    {"id": "q01-current-city", "query": "What is my current home city?", "limit": 5, "include": ["city_pune_2"], "exclude": ["city_pune_1", "city_mumbai", "city_bangalore_pending"]},
+    {"id": "q02-current-employer", "query": "Who is my current work employer?", "limit": 5, "include": ["employer_globex"], "exclude": ["employer_acme"]},
+    {"id": "q03-current-diet", "query": "What is my current vegan diet?", "limit": 5, "include": ["diet_vegan"], "exclude": ["diet_vegetarian"]},
+    {"id": "q04-current-pet", "query": "What is my current cat pet name?", "limit": 5, "include": ["pet_luna"], "exclude": ["pet_milo"]},
+    {"id": "q05-programming-language", "query": "Which programming language do I prefer?", "limit": 5, "include": ["language_rust"], "exclude": ["language_python"]},
+    {"id": "q06-work-arrangement", "query": "What is my remote work arrangement?", "limit": 5, "include": ["work_remote"], "exclude": ["work_hybrid_pending"]},
+    {"id": "q07-timezone", "query": "What timezone am I in?", "limit": 5, "include": ["timezone_kolkata"], "exclude": []},
+    {"id": "q08-cuisine", "query": "What is my favorite cuisine food?", "limit": 5, "include": ["cuisine_thai"], "exclude": []},
+    {"id": "q09-hiking", "query": "Which outdoor trail hiking hobby do I enjoy?", "limit": 5, "include": ["hobby_hiking"], "exclude": []},
+    {"id": "q10-photography", "query": "What camera photography hobby do I practice?", "limit": 5, "include": ["hobby_photography"], "exclude": []},
+    {"id": "q11-allergy", "query": "Which food allergy should I remember?", "limit": 5, "include": ["allergy_peanuts"], "exclude": []},
+    {"id": "q12-birthday", "query": "What is my birthday month?", "limit": 5, "include": ["birthday_november"], "exclude": []},
+    {"id": "q13-siblings", "query": "How many siblings do I have?", "limit": 5, "include": ["siblings_two"], "exclude": []},
+    {"id": "q14-degree", "query": "What degree did I study?", "limit": 5, "include": ["degree_cs"], "exclude": []},
+    {"id": "q15-meetings", "query": "When do I prefer meetings?", "limit": 5, "include": ["meeting_mornings"], "exclude": []},
+    {"id": "q16-deleted-coffee", "query": "How do I take coffee?", "limit": 5, "include": [], "exclude": ["coffee_black_deleted"]},
+    {"id": "q17-music", "query": "Which jazz music genre do I like?", "limit": 5, "include": ["music_jazz"], "exclude": []},
+    {"id": "q18-travel", "query": "Which travel destination do I want to visit?", "limit": 5, "include": ["travel_japan"], "exclude": []},
+    {"id": "q19-exercise", "query": "What yoga fitness exercise do I practice?", "limit": 5, "include": ["exercise_yoga"], "exclude": []},
+    {"id": "q20-device", "query": "Which operating system runs on my computer?", "limit": 5, "include": ["device_linux"], "exclude": []}
+  ]
+}
