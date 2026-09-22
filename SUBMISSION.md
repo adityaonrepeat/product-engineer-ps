@@ -6,7 +6,8 @@
 - **Email:** adityasinghstuff@gmail.com
 - **GitHub:** https://github.com/adityaonrepeat
 - **LinkedIn:** https://linkedin.com/in/adityaonrepeat
-- **Resume / portfolio:** https://adityaonrepeat.vercel.app
+- **Resume:** [RESUME.pdf](RESUME.pdf)
+- **Portfolio:** https://adityaonrepeat.vercel.app
 - **Selected problem:** Problem 4 — Trustworthy long-term memory
 - **Demo video:** PENDING — add the public 3–5 minute video URL before submission
 
