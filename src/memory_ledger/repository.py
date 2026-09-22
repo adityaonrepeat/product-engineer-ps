@@ -223,3 +223,12 @@ def get_memory(database: DatabasePath, memory_id: UUID) -> MemoryRecord:
     if memory is None:
         raise MemoryNotFoundError(f"memory {memory_id} was not found")
     return memory
+
+
+def list_active_memories(database: DatabasePath) -> list[MemoryRecord]:
+    with read_connection(database) as connection:
+        rows = connection.execute(
+            "SELECT * FROM memories WHERE state = ? ORDER BY id",
+            (MemoryState.ACTIVE.value,),
+        ).fetchall()
+    return [memory_from_row(row) for row in rows]

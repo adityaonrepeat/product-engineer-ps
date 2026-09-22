@@ -7,6 +7,7 @@ import re
 import unicodedata
 from datetime import UTC, datetime
 from enum import StrEnum
+from typing import Literal
 from uuid import UUID, uuid5
 
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validator
@@ -146,3 +147,46 @@ class CreateResult(BaseModel):
 class MemoryInspection(BaseModel):
     memory: MemoryRecord
     history: list[MemoryRecord]
+
+
+class RetrievalRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    query: str = Field(min_length=1)
+    limit: int = Field(default=5, ge=1, le=20)
+
+    @field_validator("query")
+    @classmethod
+    def strip_query(cls, value: str) -> str:
+        stripped = value.strip()
+        if not stripped:
+            raise ValueError("must not be blank")
+        return stripped
+
+
+class EvidenceContribution(BaseModel):
+    field: Literal["key", "tags", "value", "text"]
+    token: str
+    weight: int
+
+
+class RetrievalEvidence(BaseModel):
+    query_tokens: list[str]
+    matched_tokens: list[str]
+    contributions: list[EvidenceContribution]
+    score: int
+
+
+class RetrievalResult(BaseModel):
+    memory: MemoryRecord
+    evidence: RetrievalEvidence
+
+
+class RetrievalResponse(BaseModel):
+    query: str
+    limit: int
+    results: list[RetrievalResult]
+
+
+class HealthResponse(BaseModel):
+    status: Literal["ok"] = "ok"
