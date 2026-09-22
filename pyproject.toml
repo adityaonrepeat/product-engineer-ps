@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "memory-ledger"
+version = "0.1.0"
+description = "A deterministic, provenance-aware conversational memory engine"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+    "fastapi",
+    "pydantic",
+    "typer",
+    "uvicorn",
+]
+
+[project.scripts]
+memory-ledger = "memory_ledger.cli:app"
+
+[dependency-groups]
+dev = [
+    "httpx",
+    "pytest>=9",
+    "ruff",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
