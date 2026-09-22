@@ -141,3 +141,8 @@ class MemoryRecord(BaseModel):
 class CreateResult(BaseModel):
     memory: MemoryRecord
     created: bool
+
+
+class MemoryInspection(BaseModel):
+    memory: MemoryRecord
+    history: list[MemoryRecord]

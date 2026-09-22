@@ -64,6 +64,131 @@ def get_memory_from_connection(
     return memory_from_row(row) if row else None
 
 
+def insert_candidate(
+    connection: sqlite3.Connection,
+    candidate: MemoryCreate,
+    *,
+    state: MemoryState,
+    now: datetime,
+    supersedes_id: UUID | None = None,
+    conflicts_with_id: UUID | None = None,
+) -> MemoryRecord:
+    """Insert a sourced candidate inside the caller's transaction."""
+    memory_id = memory_id_for(
+        candidate.source.message_id,
+        candidate.fact.key,
+        candidate.fact.value,
+    )
+    timestamp = as_utc(now)
+    connection.execute(
+        """
+        INSERT INTO memories (
+            id, key, value, text, tags_json,
+            source_message_id, source_conversation_id, source_excerpt,
+            source_hash, source_occurred_at, state,
+            supersedes_id, superseded_by_id, conflicts_with_id,
+            created_at, updated_at, deleted_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, NULL)
+        """,
+        (
+            str(memory_id),
+            candidate.fact.key,
+            candidate.fact.value,
+            candidate.fact.text,
+            json.dumps(candidate.fact.tags, ensure_ascii=False, separators=(",", ":")),
+            candidate.source.message_id,
+            candidate.source.conversation_id,
+            candidate.source.excerpt,
+            source_digest(candidate.source.excerpt),
+            to_db_datetime(candidate.source.occurred_at),
+            state.value,
+            str(supersedes_id) if supersedes_id else None,
+            str(conflicts_with_id) if conflicts_with_id else None,
+            to_db_datetime(timestamp),
+            to_db_datetime(timestamp),
+        ),
+    )
+    inserted = get_memory_from_connection(connection, memory_id)
+    assert inserted is not None
+    return inserted
+
+
+def mark_memory_superseded(
+    connection: sqlite3.Connection,
+    target_id: UUID,
+    replacement_id: UUID,
+    *,
+    now: datetime,
+) -> bool:
+    cursor = connection.execute(
+        """
+        UPDATE memories
+        SET state = ?, superseded_by_id = ?, updated_at = ?
+        WHERE id = ? AND state = ?
+        """,
+        (
+            MemoryState.SUPERSEDED.value,
+            str(replacement_id),
+            to_db_datetime(now),
+            str(target_id),
+            MemoryState.ACTIVE.value,
+        ),
+    )
+    return cursor.rowcount == 1
+
+
+def erase_memory_content(
+    connection: sqlite3.Connection,
+    memory_id: UUID,
+    *,
+    now: datetime,
+) -> MemoryRecord:
+    timestamp = to_db_datetime(now)
+    connection.execute(
+        """
+        UPDATE memories
+        SET key = NULL,
+            value = NULL,
+            text = NULL,
+            tags_json = NULL,
+            source_excerpt = NULL,
+            state = ?,
+            updated_at = ?,
+            deleted_at = ?
+        WHERE id = ?
+        """,
+        (MemoryState.DELETED.value, timestamp, timestamp, str(memory_id)),
+    )
+    erased = get_memory_from_connection(connection, memory_id)
+    assert erased is not None
+    return erased
+
+
+def related_memory_ids(connection: sqlite3.Connection, memory_id: UUID) -> set[UUID]:
+    memory = get_memory_from_connection(connection, memory_id)
+    if memory is None:
+        return set()
+
+    related = {
+        related_id
+        for related_id in (
+            memory.supersedes_id,
+            memory.superseded_by_id,
+            memory.conflicts_with_id,
+        )
+        if related_id is not None
+    }
+    reverse_rows = connection.execute(
+        """
+        SELECT id FROM memories
+        WHERE supersedes_id = ? OR superseded_by_id = ? OR conflicts_with_id = ?
+        """,
+        (str(memory_id), str(memory_id), str(memory_id)),
+    ).fetchall()
+    related.update(UUID(row["id"]) for row in reverse_rows)
+    return related
+
+
 def create_memory(
     database: DatabasePath,
     candidate: MemoryCreate,
@@ -83,34 +208,12 @@ def create_memory(
         if existing is not None:
             return CreateResult(memory=existing, created=False)
 
-        connection.execute(
-            """
-            INSERT INTO memories (
-                id, key, value, text, tags_json,
-                source_message_id, source_conversation_id, source_excerpt,
-                source_hash, source_occurred_at, state,
-                supersedes_id, superseded_by_id, conflicts_with_id,
-                created_at, updated_at, deleted_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL, NULL, ?, ?, NULL)
-            """,
-            (
-                str(memory_id),
-                candidate.fact.key,
-                candidate.fact.value,
-                candidate.fact.text,
-                json.dumps(candidate.fact.tags, ensure_ascii=False, separators=(",", ":")),
-                candidate.source.message_id,
-                candidate.source.conversation_id,
-                candidate.source.excerpt,
-                source_digest(candidate.source.excerpt),
-                to_db_datetime(candidate.source.occurred_at),
-                MemoryState.ACTIVE.value,
-                to_db_datetime(timestamp),
-                to_db_datetime(timestamp),
-            ),
+        created = insert_candidate(
+            connection,
+            candidate,
+            state=MemoryState.ACTIVE,
+            now=timestamp,
         )
-        created = get_memory_from_connection(connection, memory_id)
-        assert created is not None
         return CreateResult(memory=created, created=True)
 
 
