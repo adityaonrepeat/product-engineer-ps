@@ -9,7 +9,7 @@
 - **Resume:** [RESUME.pdf](RESUME.pdf)
 - **Portfolio:** https://adityaonrepeat.vercel.app
 - **Selected problem:** Problem 4 — Trustworthy long-term memory
-- **Demo video:** PENDING — add the public 3–5 minute video URL before submission
+- **Demo video:** https://drive.google.com/drive/folders/1hDV70qwkJIMkGYAyVDreZRYhZu4aGJiX?usp=sharing
 
 ## Run the project
 
